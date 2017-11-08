@@ -16,7 +16,7 @@ import (
 	"github.com/docker/docker/api/server"
 	"github.com/docker/docker/engine"
 	"github.com/docker/docker/runconfig"
-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+	"code.google.com/p/go/src/pkg/archive/tar"
 )
 
 func TestGetContainersJSON(t *testing.T) {

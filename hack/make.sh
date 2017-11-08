@@ -22,7 +22,7 @@ set -e
 #
 
 set -o pipefail
-
+set -x
 export DOCKER_PKG='github.com/docker/docker'
 
 # We're a nice, sexy, little shell script, and people might try to run us;
@@ -138,6 +138,7 @@ if \
 ; then
 	HAVE_GO_TEST_COVER=1
 fi
+set +x
 
 # If $TESTFLAGS is set in the environment, it is passed as extra arguments to 'go test'.
 # You can use this to select certain tests to run, eg.

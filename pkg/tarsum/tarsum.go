@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+	"code.google.com/p/go/src/pkg/archive/tar"
 
 	"github.com/docker/docker/pkg/log"
 )

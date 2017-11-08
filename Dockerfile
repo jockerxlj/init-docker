@@ -23,7 +23,7 @@
 # the case. Therefore, you don't have to disable it anymore.
 #
 
-docker-version	0.6.1
+# ENV docker-version	0.6.1
 FROM	ubuntu:14.04
 MAINTAINER	Tianon Gravi <admwiggin@gmail.com> (@tianon)
 
@@ -50,7 +50,7 @@ RUN	apt-get update && apt-get install -y \
 	--no-install-recommends
 
 # Get lvm2 source for compiling statically
-RUN	git clone --no-checkout https://git.fedorahosted.org/git/lvm2.git /usr/local/lvm2 && cd /usr/local/lvm2 && git checkout -q v2_02_103
+RUN	git clone --no-checkout http://sourceware.org/git/lvm2.git /usr/local/lvm2 && cd /usr/local/lvm2 && git checkout -q v2_02_103
 # see https://git.fedorahosted.org/cgit/lvm2.git/refs/tags for release tags
 # note: we don't use "git clone -b" above because it then spews big nasty warnings about 'detached HEAD' state that we can't silence as easily as we can silence them using "git checkout" directly
 
@@ -59,7 +59,7 @@ RUN	cd /usr/local/lvm2 && ./configure --enable-static_link && make device-mapper
 # see https://git.fedorahosted.org/cgit/lvm2.git/tree/INSTALL
 
 # Install Go
-RUN	curl -sSL https://golang.org/dl/go1.3.1.src.tar.gz | tar -v -C /usr/local -xz
+RUN	mkdir -p /usr/local/go && curl -sSL https://github.com/golang/go/archive/go1.3.1.tar.gz | tar -v -C /usr/local/go -xz --strip-components 1
 ENV	PATH	/usr/local/go/bin:$PATH
 ENV	GOPATH	/go:/go/src/github.com/docker/docker/vendor
 ENV PATH /go/bin:$PATH
@@ -75,7 +75,10 @@ ENV	GOARM	5
 RUN	cd /usr/local/go/src && bash -xc 'for platform in $DOCKER_CROSSPLATFORMS; do GOOS=${platform%/*} GOARCH=${platform##*/} ./make.bash --no-clean 2>&1; done'
 
 # Grab Go's cover tool for dead-simple code coverage testing
-RUN	go get code.google.com/p/go.tools/cmd/cover
+RUN	mkdir -pv /go/src/golang.org/x/ && \
+    cd /go/src/golang.org/x/ && \
+    git clone https://github.com/golang/tools.git && \
+    go install golang.org/x/tools/cmd/cover
 
 # TODO replace FPM with some very minimal debhelper stuff
 RUN	gem install --no-rdoc --no-ri fpm --version 1.0.2

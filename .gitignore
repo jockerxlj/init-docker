@@ -1,0 +1,5 @@
+.idea
+*.swp
+bundles/
+vendor/pkg/
+docker/docker
