@@ -48,7 +48,7 @@ run docker:
 
 ## Change logs compared to the dockerv1.2.0
 
-一. modify some file in dockerv1.2.0 so that it can build more smoothly 
+### 一. modify some file in dockerv1.2.0 so that it can build more smoothly 
 
 git-commit-id: e6a3d62d3f14c86aaca46193a5e3c004112f6d3f
 
@@ -57,7 +57,7 @@ git-commit-id: e6a3d62d3f14c86aaca46193a5e3c004112f6d3f
      the building process.
   3. Modify some "import pkg path" in order fo find pkg while building.
 
-二. add pmtu discovery to find min-mtu in hosts 
+### 二. add pmtu discovery to find min-mtu in hosts 
 
 related issue [click ere](https://github.com/moby/moby/issues/22297)
 
