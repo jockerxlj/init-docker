@@ -1,6 +1,7 @@
 package daemon
 
 import (
+	"fmt"
 	"net"
 
 	"github.com/docker/docker/daemon/networkdriver"
@@ -64,7 +65,10 @@ func (config *Config) InstallFlags() {
 
 func GetDefaultNetworkMtu() int {
 	if iface, err := networkdriver.GetDefaultRouteIface(); err == nil {
+		fmt.Println("daemon/config.go#68: ", iface.MTU)
 		return iface.MTU
+	} else {
+		fmt.Println("error in daemon/config.go#71: ", err)
 	}
 	return defaultNetworkMtu
 }

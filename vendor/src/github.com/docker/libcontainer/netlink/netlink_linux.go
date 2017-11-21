@@ -854,6 +854,9 @@ done:
 
 			if msg.Dst_len == 0 {
 				// Default routes
+				// set true to get default route, using to set mtu == default route mtu
+				// FIX default route panic
+				fmt.Println("github.com/docker/libcontainer/netlink/netlink_linux.go#859: ", m)
 				r.Default = true
 			}
 

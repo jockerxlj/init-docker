@@ -106,10 +106,12 @@ func GetIfaceAddr(name string) (net.Addr, error) {
 
 func GetDefaultRouteIface() (*net.Interface, error) {
 	rs, err := networkGetRoutesFct()
+	fmt.Println("daemon/networkdrive/utils#109: route list:", rs)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get routes: %v", err)
 	}
 	for _, r := range rs {
+		fmt.Println("daemon/networkdrive/utils#114 routes: ", r)
 		if r.Default {
 			return r.Iface, nil
 		}

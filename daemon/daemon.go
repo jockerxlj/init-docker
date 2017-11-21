@@ -675,6 +675,7 @@ func NewDaemonFromDirectory(config *Config, eng *engine.Engine) (*Daemon, error)
 	if config.Mtu == 0 {
 		// FIXME: GetDefaultNetwork Mtu doesn't need to be public anymore
 		config.Mtu = GetDefaultNetworkMtu()
+		fmt.Println("daemon/daemon.go#678 GetDefaultNetworkMtu: ", GetDefaultNetworkMtu())
 	}
 	// Check for mutually incompatible config options
 	if config.BridgeIface != "" && config.BridgeIP != "" {
@@ -798,6 +799,7 @@ func NewDaemonFromDirectory(config *Config, eng *engine.Engine) (*Daemon, error)
 		job.Setenv("BridgeIface", config.BridgeIface)
 		job.Setenv("BridgeIP", config.BridgeIP)
 		job.Setenv("DefaultBindingIP", config.DefaultIp.String())
+		job.SetenvInt("NetworkMTU", config.Mtu)
 
 		if err := job.Run(); err != nil {
 			return nil, err
@@ -851,6 +853,7 @@ func NewDaemonFromDirectory(config *Config, eng *engine.Engine) (*Daemon, error)
 		execDriver:     ed,
 		eng:            eng,
 	}
+	fmt.Println("daemon/deamon.go#854: config = ", config)
 	if err := daemon.checkLocaldns(); err != nil {
 		return nil, err
 	}

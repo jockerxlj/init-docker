@@ -3,3 +3,4 @@
 bundles/
 vendor/pkg/
 docker/docker
+*.out

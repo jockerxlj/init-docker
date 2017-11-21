@@ -220,6 +220,7 @@ func (s *TagStore) pullImage(r *registry.Session, out io.Writer, imgID, endpoint
 	// FIXME: Try to stream the images?
 	// FIXME: Launch the getRemoteImage() in goroutines
 
+	fmt.Println("graph/pull.go#223 history: ", history)
 	for i := len(history) - 1; i >= 0; i-- {
 		id := history[i]
 

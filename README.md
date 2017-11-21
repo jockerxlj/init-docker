@@ -48,7 +48,7 @@ run docker:
 
 ## Change logs compared to the dockerv1.2.0
 
-modify some file in dockerv1.2.0 so that it can build more smoothly
+modify some file in dockerv1.2.0 so that it can build more smoothly, git-commit-id:
 
   1. Modify Dockerfile: fix the timeout problems because of the GFW.
   2. Add some dubug information in hack/make.sh to make it easier to understand

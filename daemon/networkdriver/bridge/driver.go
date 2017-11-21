@@ -83,6 +83,7 @@ func InitDriver(job *engine.Job) engine.Status {
 		icc            = job.GetenvBool("InterContainerCommunication")
 		ipForward      = job.GetenvBool("EnableIpForward")
 		bridgeIP       = job.Getenv("BridgeIP")
+		// networkMTU     = job.GetenvInt("NetworkMTU")
 	)
 
 	if defaultIP := job.Getenv("DefaultBindingIP"); defaultIP != "" {
@@ -106,6 +107,17 @@ func InitDriver(job *engine.Job) engine.Status {
 		// If the iface is not found, try to create it
 		job.Logf("creating new bridge for %s", bridgeIface)
 		if err := createBridge(bridgeIP); err != nil {
+			return job.Error(err)
+		}
+
+		// ME: after create bridge, set the mtu
+		minMTU, err := getMinMTU()
+		if err != nil {
+			return job.Error(err)
+		}
+		job.Logf("set bridge min-mtu for %s", minMTU)
+		fmt.Println("set bridge min-mtu: ", minMTU)
+		if err := setBridgeMTU(bridgeIface, minMTU); err != nil {
 			return job.Error(err)
 		}
 
@@ -312,6 +324,29 @@ func createBridgeIface(name string) error {
 	setBridgeMacAddr := err == nil && (kv.Kernel >= 3 && kv.Major >= 3)
 	log.Debugf("setting bridge mac address = %v", setBridgeMacAddr)
 	return netlink.CreateBridge(name, setBridgeMacAddr)
+}
+
+func setBridgeMTU(bridgeIface string, mtu int) error {
+	iface, err := net.InterfaceByName(bridgeIface)
+	if err != nil {
+		return err
+	}
+	return netlink.NetworkSetMTU(iface, mtu)
+}
+
+func getMinMTU() (int, error) {
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		return -1, err
+	}
+	minMTU := 1501
+	for _, iface := range ifaces {
+		fmt.Println("daemon/networkdriver/bridge/driver.go#340: ", iface)
+		if iface.MTU < minMTU {
+			minMTU = iface.MTU
+		}
+	}
+	return minMTU, nil
 }
 
 // Allocate a network interface

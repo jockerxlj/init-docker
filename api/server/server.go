@@ -1369,7 +1369,8 @@ func ServeApi(job *engine.Job) engine.Status {
 
 func AcceptConnections(job *engine.Job) engine.Status {
 	// Tell the init daemon we are accepting requests
-	go systemd.SdNotify("READY=1")
+	// go systemd.SdNotify("READY=1")
+	log.Infof("not send READY=1 to init")
 
 	// close the lock so the listeners start accepting connections
 	if activationLock != nil {

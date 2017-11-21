@@ -40,6 +40,7 @@ func NewSession(authConfig *AuthConfig, factory *utils.HTTPRequestFactory, index
 		r.timeout = ReceiveTimeout
 	}
 
+	fmt.Println("registry/session#43 session: ", r)
 	r.jar, err = cookiejar.New(nil)
 	if err != nil {
 		return nil, err
@@ -198,6 +199,7 @@ func (r *Session) GetRemoteTags(registries []string, repository string, token []
 		// the "library" namespace
 		repository = "library/" + repository
 	}
+	fmt.Println("registry/session#202 registries: ", registries)
 	for _, host := range registries {
 		endpoint := fmt.Sprintf("%srepositories/%s/tags", host, repository)
 		req, err := r.reqFactory.NewRequest("GET", endpoint, nil)
