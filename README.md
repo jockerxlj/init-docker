@@ -48,12 +48,22 @@ run docker:
 
 ## Change logs compared to the dockerv1.2.0
 
-modify some file in dockerv1.2.0 so that it can build more smoothly, git-commit-id:
+一. modify some file in dockerv1.2.0 so that it can build more smoothly 
+
+git-commit-id: e6a3d62d3f14c86aaca46193a5e3c004112f6d3f
 
   1. Modify Dockerfile: fix the timeout problems because of the GFW.
   2. Add some dubug information in hack/make.sh to make it easier to understand
      the building process.
   3. Modify some "import pkg path" in order fo find pkg while building.
+
+二. add pmtu discovery to find min-mtu in hosts 
+
+related issue [click ere](https://github.com/moby/moby/issues/22297)
+
+git-commit-id: 12d5cc91f258e62d01e93b00f9a474eb610c4810
+
+  1. mainly modify: daemon/daemon.go, daemon/networkdriver/bridge/driver.go
 
 ### Legal
 
